@@ -1,6 +1,7 @@
 import 'package:banking_app/blocs/auth/auth_bloc.dart';
 import 'package:banking_app/blocs/auth/auth_event.dart';
 import 'package:banking_app/blocs/auth/auth_state.dart';
+import 'package:banking_app/data/models/user_model.dart';
 import 'package:banking_app/screens/auth/login/login_screen.dart';
 import 'package:banking_app/screens/auth/widgets/password_text_input.dart';
 import 'package:banking_app/screens/auth/widgets/universal_text_input.dart';
@@ -50,10 +51,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
         backgroundColor: AppColors.black,
         body: BlocConsumer<AuthBloc, AuthState>(
           builder: (context, state) {
-            if (state is AuthErrorState) {
-              return Center(child: Text(state.errorText));
+            if (state.formStatus == FormStatus.error) {
+              return Center(
+                child: Text(
+                  state.errorMessage,
+                  style: const TextStyle(fontSize: 20, color: AppColors.white),
+                ),
+              );
             }
-            if (state is AuthInitialState) {
+            if (state.formStatus == FormStatus.unauthenticated) {
               return SingleChildScrollView(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 44.w),
@@ -89,15 +95,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           iconPath: AppImages.email,
                         ),
                         16.getH(),
-                        UniversalTextInput(
-                          controller: emailController,
-                          hintText: "Email",
-                          type: TextInputType.emailAddress,
-                          regExp: AppConstants.emailRegExp,
-                          errorTitle: 'E-mail',
-                          iconPath: AppImages.email,
-                        ),
-                        16.getH(),
                         PasswordTextInput(
                           controller: passwordController,
                         ),
@@ -115,11 +112,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           onPressed: () {
                             context.read<AuthBloc>().add(
-                                  AuthRegisterEvent(
-                                    name:
-                                        "${firstNameController.text} $firstNameController",
-                                    email: emailController.text,
-                                    password: passwordController.text,
+                                  RegisterUserEvent(
+                                    userModel: UserModel(
+                                      imageUrl: "",
+                                      email: firstNameController.text,
+                                      lastName: "",
+                                      passwordName: passwordController.text,
+                                      phoneNumber: "",
+                                      userId: "",
+                                      userName: "",
+                                    ),
                                   ),
                                 );
                           },
@@ -155,7 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           onPressed: () {
                             context
                                 .read<AuthBloc>()
-                                .add(AuthGoogleEvent(context));
+                                .add(SignInWithGoogleEvent());
                           },
                           icon: SvgPicture.asset(AppImages.google),
                         ),
@@ -204,7 +206,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             );
           },
           listener: (BuildContext context, AuthState state) {
-            if (state is AuthSuccessState) {
+            if (state.formStatus == FormStatus.authenticated) {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

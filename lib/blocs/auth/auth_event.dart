@@ -1,32 +1,41 @@
+import 'package:banking_app/data/models/user_model.dart';
+import 'package:equatable/equatable.dart';
 
-import 'package:flutter/cupertino.dart';
-
-abstract class AuthEvent {}
-
-class AuthInitialEvent extends AuthEvent {}
-
-class AuthLoginEvent extends AuthEvent {
-  AuthLoginEvent({required this.email, required this.password});
-
-  final String email;
-  final String password;
+abstract class AuthEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
 }
 
-class AuthRegisterEvent extends AuthEvent {
-  AuthRegisterEvent({
-    required this.name,
-    required this.email,
-    required this.password,
-  });
-
-  final String name;
-  final String email;
-  final String password;
+class CheckAuthenticationEvent extends AuthEvent {
+  @override
+  List<Object?> get props => [];
 }
 
-class AuthGoogleEvent extends AuthEvent {
-  AuthGoogleEvent(this.context, [this.clientId]);
+class LoginUserEvent extends AuthEvent {
+  LoginUserEvent({required this.username, required this.password});
 
-  final BuildContext context;
-  final String? clientId;
+  final String username;
+  final String password;
+
+  @override
+  List<Object?> get props => [username, password];
+}
+
+class RegisterUserEvent extends AuthEvent {
+  RegisterUserEvent({required this.userModel});
+
+  final UserModel userModel;
+
+  @override
+  List<Object?> get props => [userModel];
+}
+
+class LogOutEvent extends AuthEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class SignInWithGoogleEvent extends AuthEvent {
+  @override
+  List<Object?> get props => [];
 }

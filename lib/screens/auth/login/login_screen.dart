@@ -45,12 +45,12 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: AppColors.black,
         body: BlocConsumer<AuthBloc, AuthState>(
           builder: (context, state) {
-            if (state is AuthErrorState) {
+            if (state.formStatus == FormStatus.error) {
               return Center(
-                child: Text(state.errorText),
+                child: Text(state.errorMessage),
               );
             }
-            if (state is AuthInitialState) {
+            if (state.formStatus == FormStatus.pure) {
               return Column(
                 children: [
                   Expanded(
@@ -106,8 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 onPressed: () {
                                   context.read<AuthBloc>().add(
-                                        AuthLoginEvent(
-                                          email: emailController.text,
+                                        LoginUserEvent(
+                                          username: emailController.text,
                                           password: passwordController.text,
                                         ),
                                       );
@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           },
           listener: (BuildContext context, AuthState state) {
-            if (state is AuthSuccessState) {
+            if (state.formStatus == FormStatus.authenticated) {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

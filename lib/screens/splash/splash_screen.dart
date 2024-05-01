@@ -1,3 +1,5 @@
+import 'package:banking_app/blocs/auth/auth_bloc.dart';
+import 'package:banking_app/blocs/auth/auth_state.dart';
 import 'package:banking_app/data/local/storage_repository.dart';
 import 'package:banking_app/screens/auth/register/register_screen.dart';
 import 'package:banking_app/screens/on_boarding/on_boarding_screen.dart';
@@ -5,8 +7,8 @@ import 'package:banking_app/screens/tab_box/tab_screen.dart';
 import 'package:banking_app/utils/app_colors.dart';
 import 'package:banking_app/utils/app_images.dart';
 import 'package:banking_app/utils/size_utils.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,14 +18,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  _init() async {
+  _init(bool isAuthenticated) async {
     await Future.delayed(
       const Duration(seconds: 2),
     );
     if (!mounted) return;
 
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
+    if (isAuthenticated == false) {
       bool isNewUser = StorageRepository.getBool(key: "is_new_user");
       if (isNewUser) {
         Navigator.pushReplacement(
@@ -51,35 +52,37 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   @override
-  void initState() {
-    _init();
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: AppColors.black,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(child: Image.asset(AppImages.bankImage)),
-          50.getH(),
-          Center(
-            child: Text(
-              "Bank App",
-              style: TextStyle(
-                color: AppColors.white,
-                fontSize: 36.w,
-                fontWeight: FontWeight.w600,
+      body: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state.formStatus == FormStatus.authenticated) {
+            _init(true);
+          } else {
+            _init(false);
+          }
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(child: Image.asset(AppImages.bankImage)),
+            50.getH(),
+            Center(
+              child: Text(
+                "Bank App",
+                style: TextStyle(
+                  color: AppColors.white,
+                  fontSize: 36.w,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
