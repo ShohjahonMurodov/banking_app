@@ -12,6 +12,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLoginEvent>(_login);
     on<AuthRegisterEvent>(_register);
     on<AuthInitialEvent>(_initialState);
+    on<AuthGoogleEvent>(signInWithGoogle);
   }
 
   User? getUser = FirebaseAuth.instance.currentUser;

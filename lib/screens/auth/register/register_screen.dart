@@ -152,7 +152,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         19.getH(),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context
+                                .read<AuthBloc>()
+                                .add(AuthGoogleEvent(context));
+                          },
                           icon: SvgPicture.asset(AppImages.google),
                         ),
                         19.getH(),
