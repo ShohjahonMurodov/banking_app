@@ -2,6 +2,8 @@ import 'package:banking_app/data/local/storage_repository.dart';
 import 'package:banking_app/screens/auth/register/register_screen.dart';
 import 'package:banking_app/screens/on_boarding/on_boarding_screen.dart';
 import 'package:banking_app/screens/tab_box/tab_screen.dart';
+import 'package:banking_app/utils/app_colors.dart';
+import 'package:banking_app/utils/app_images.dart';
 import 'package:banking_app/utils/size_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -60,13 +62,24 @@ class _SplashScreenState extends State<SplashScreen> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
 
-    return const Scaffold(
-      body: Center(
-        child: Icon(
-          Icons.access_time_filled_outlined,
-          color: Colors.green,
-          size: 200,
-        ),
+    return Scaffold(
+      backgroundColor: AppColors.black,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(child: Image.asset(AppImages.bankImage)),
+          50.getH(),
+          Center(
+            child: Text(
+              "Bank App",
+              style: TextStyle(
+                color: AppColors.white,
+                fontSize: 36.w,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

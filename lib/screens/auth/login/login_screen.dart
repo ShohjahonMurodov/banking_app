@@ -41,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
           statusBarColor: AppColors.transparent,
           statusBarIconBrightness: Brightness.dark),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: AppColors.black,
         body: BlocConsumer<AuthBloc, AuthState>(
           builder: (context, state) {

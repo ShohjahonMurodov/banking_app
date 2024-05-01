@@ -101,7 +101,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         PasswordTextInput(
                           controller: passwordController,
                         ),
-                        13.getH(),
+                        35.getH(),
                         TextButton(
                           style: TextButton.styleFrom(
                             padding: EdgeInsets.symmetric(
