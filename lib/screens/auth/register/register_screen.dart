@@ -12,6 +12,7 @@ import 'package:banking_app/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -60,10 +61,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     key: formKey,
                     child: Column(
                       children: [
-                        60.getH(),
+                        // 60.getH(),
                         Image.asset(
                           AppImages.registerImage,
                           height: 250.h,
+                          width: 225.w,
+                          fit: BoxFit.cover,
                         ),
                         16.getH(),
                         Center(
@@ -100,32 +103,70 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         13.getH(),
                         TextButton(
-                            style: TextButton.styleFrom(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 18.h, horizontal: 80.w),
-                                backgroundColor: Theme.of(context).primaryColor,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(24))),
-                            onPressed: () {
-                              context.read<AuthBloc>().add(
-                                    AuthRegisterEvent(
-                                      name:
-                                          "${firstNameController.text} $firstNameController",
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                    ),
-                                  );
-                            },
-                            child: Text("SIGNUP",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: AppColors.white))),
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 18.h,
+                              horizontal: 80.w,
+                            ),
+                            backgroundColor: AppColors.c_262626,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          onPressed: () {
+                            context.read<AuthBloc>().add(
+                                  AuthRegisterEvent(
+                                    name:
+                                        "${firstNameController.text} $firstNameController",
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  ),
+                                );
+                          },
+                          child: Text(
+                            "SIGNUP",
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 13.w,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
                         13.getH(),
+                        Text(
+                          "OR",
+                          style: TextStyle(
+                            color: AppColors.white.withOpacity(.8),
+                            fontSize: 13.w,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        6.getH(),
+                        Text(
+                          "Login in with",
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 15.w,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        19.getH(),
+                        IconButton(
+                          onPressed: () {},
+                          icon: SvgPicture.asset(AppImages.google),
+                        ),
+                        19.getH(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text("Already have an account?"),
+                            Text(
+                              "Already have an account?",
+                              style: TextStyle(
+                                color: AppColors.white.withOpacity(.8),
+                                fontSize: 12.w,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
                             TextButton(
                               onPressed: () {
                                 Navigator.pushReplacement(
@@ -137,7 +178,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 );
                               },
-                              child: const Text("Login"),
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: 12.w,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
                             ),
                           ],
                         )

@@ -12,7 +12,6 @@ import 'package:banking_app/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -42,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
           statusBarColor: AppColors.transparent,
           statusBarIconBrightness: Brightness.dark),
       child: Scaffold(
+        backgroundColor: AppColors.black,
         body: BlocConsumer<AuthBloc, AuthState>(
           builder: (context, state) {
             if (state is AuthErrorState) {
@@ -50,127 +50,117 @@ class _LoginScreenState extends State<LoginScreen> {
               );
             }
             if (state is AuthInitialState) {
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 44.w),
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          AppImages.registerImage,
-                          height: 300.h,
-                          fit: BoxFit.cover,
-                        ),
-                        16.getH(),
-                        Text("LOGIN",
-                            style: Theme.of(context).textTheme.bodyLarge),
-                        UniversalTextInput(
-                          controller: emailController,
-                          hintText: "Email",
-                          type: TextInputType.emailAddress,
-                          regExp: AppConstants.emailRegExp,
-                          errorTitle: 'E-mail',
-                          iconPath: AppImages.email,
-                        ),
-                        20.getH(),
-                        PasswordTextInput(
-                          controller: passwordController,
-                        ),
-                        13.getH(),
-                        Row(
-                          children: [
-                            Switch(
-                              value: isChecked,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  isChecked = !isChecked;
-                                });
-                              },
-                            ),
-                            3.getW(),
-                            Text(
-                              "Remember Me",
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                            TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  "Forgot Password?",
-                                  style: Theme.of(context).textTheme.labelSmall,
-                                ))
-                          ],
-                        ),
-                        13.getH(),
-                        TextButton(
-                            style: TextButton.styleFrom(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 18.h, horizontal: 80.w),
-                                backgroundColor: Theme.of(context).primaryColor,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(24))),
-                            onPressed: () {
-                              context.read<AuthBloc>().add(
-                                    AuthLoginEvent(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                    ),
-                                  );
-                            },
-                            child: Text("LOGIN",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: AppColors.white))),
-                        13.getH(),
-                        Text("OR",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(fontSize: 14)),
-                        10.getH(),
-                        Text("Login with",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(fontSize: 12)),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              return Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 44.w),
+                        child: Form(
+                          key: formKey,
+                          child: Column(
                             children: [
-                              IconButton(
-                                onPressed: () {},
-                                icon: SvgPicture.asset(
-                                  AppImages.google,
-                                  height: 24.h,
+                              // 60.getH(),
+                              Image.asset(
+                                AppImages.registerImage,
+                                height: 250.h,
+                                width: 225.w,
+                                fit: BoxFit.cover,
+                              ),
+                              16.getH(),
+                              Center(
+                                child: Text(
+                                  "Sign Up",
+                                  style: TextStyle(
+                                    color: AppColors.white,
+                                    fontSize: 22.w,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              16.getH(),
+                              UniversalTextInput(
+                                controller: emailController,
+                                hintText: "Email",
+                                type: TextInputType.text,
+                                regExp: AppConstants.emailRegExp,
+                                errorTitle: 'Email error',
+                                iconPath: AppImages.email,
+                              ),
+                              16.getH(),
+                              PasswordTextInput(
+                                controller: passwordController,
+                              ),
+                              35.getH(),
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 18.h,
+                                    horizontal: 80.w,
+                                  ),
+                                  backgroundColor: AppColors.c_262626,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  context.read<AuthBloc>().add(
+                                        AuthLoginEvent(
+                                          email: emailController.text,
+                                          password: passwordController.text,
+                                        ),
+                                      );
+                                },
+                                child: Text(
+                                  "LOGIN",
+                                  style: TextStyle(
+                                    color: AppColors.white,
+                                    fontSize: 13.w,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        13.getH(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text("Don’t have an account?"),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RegisterScreen(),
-                                    ),
-                                  );
-                                },
-                                child: const Text("Register now"))
-                          ],
-                        )
-                      ],
+                      ),
                     ),
                   ),
-                ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don’t have an account?",
+                        style: TextStyle(
+                          color: AppColors.white.withOpacity(.8),
+                          fontSize: 12.w,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const RegisterScreen();
+                              },
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "Register now",
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 12.w,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  30.getH(),
+                ],
               );
             }
             return const Center(
