@@ -124,6 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
                                   ),
                                 );
+                            print("${firstNameController.text}@gmail.com");
                           },
                           child: Text(
                             "SIGNUP",

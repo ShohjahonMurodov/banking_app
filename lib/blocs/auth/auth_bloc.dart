@@ -59,7 +59,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     NetworkResponse networkResponse =
         await authRepository.registerWithEmailAndPassword(
-      email: "${event.userModel.userName}@gmail.com",
+      email: "${event.userModel.email}@gmail.com",
       password: event.userModel.passwordName,
     );
 
