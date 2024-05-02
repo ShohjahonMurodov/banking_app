@@ -3,6 +3,7 @@ import 'package:banking_app/blocs/auth/auth_state.dart';
 import 'package:banking_app/data/models/network_response.dart';
 import 'package:banking_app/data/repository/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -23,7 +24,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignInWithGoogleEvent>(_googleSignIn);
   }
 
-  _loginUser(LoginUserEvent event, emit) async {
+  Future<void> _loginUser(LoginUserEvent event, emit) async {
     emit(state.copyWith(formStatus: FormStatus.loading));
 
     NetworkResponse networkResponse =
@@ -33,6 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     if (networkResponse.errorText.isEmpty) {
+      // debugPrint("Qonday===============");
       emit(state.copyWith(formStatus: FormStatus.authenticated));
     } else {
       emit(
@@ -59,7 +61,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     NetworkResponse networkResponse =
         await authRepository.registerWithEmailAndPassword(
-      email: "${event.userModel.email}@gmail.com",
+      username: "${event.userModel.userName}@gmail.com",
       password: event.userModel.passwordName,
     );
 

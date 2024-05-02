@@ -4,7 +4,7 @@ import 'package:banking_app/blocs/auth/auth_state.dart';
 import 'package:banking_app/screens/auth/register/register_screen.dart';
 import 'package:banking_app/screens/auth/widgets/password_text_input.dart';
 import 'package:banking_app/screens/auth/widgets/universal_text_input.dart';
-import 'package:banking_app/screens/tab_box/tab_screen.dart';
+import 'package:banking_app/screens/routes.dart';
 import 'package:banking_app/utils/app_colors.dart';
 import 'package:banking_app/utils/app_constants.dart';
 import 'package:banking_app/utils/app_images.dart';
@@ -50,9 +50,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Text(state.errorMessage),
               );
             }
-            if (state.formStatus == FormStatus.pure) {
+            if (state.formStatus == FormStatus.unauthenticated) {
               return Column(
                 children: [
+                  60.getH(),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Padding(
@@ -61,7 +62,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           key: formKey,
                           child: Column(
                             children: [
-                              // 60.getH(),
                               Image.asset(
                                 AppImages.registerImage,
                                 height: 250.h,
@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 controller: emailController,
                                 hintText: "Email",
                                 type: TextInputType.text,
-                                regExp: AppConstants.emailRegExp,
+                                regExp: AppConstants.textRegExp,
                                 errorTitle: 'Email error',
                                 iconPath: AppImages.email,
                               ),
@@ -170,12 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
           },
           listener: (BuildContext context, AuthState state) {
             if (state.formStatus == FormStatus.authenticated) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const TabScreen(),
-                ),
-              );
+              Navigator.pushReplacementNamed(context, RouteNames.tabRoute);
             }
           },
         ),

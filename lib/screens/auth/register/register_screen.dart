@@ -115,16 +115,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   RegisterUserEvent(
                                     userModel: UserModel(
                                       imageUrl: "",
-                                      email: firstNameController.text,
+                                      email: "",
                                       lastName: "",
                                       passwordName: passwordController.text,
                                       phoneNumber: "",
                                       userId: "",
-                                      userName: "",
+                                      userName: firstNameController.text,
                                     ),
                                   ),
                                 );
-                            print("${firstNameController.text}@gmail.com");
                           },
                           child: Text(
                             "SIGNUP",
@@ -207,6 +206,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             );
           },
           listener: (BuildContext context, AuthState state) {
+            debugPrint("Makkamio--------------------");
             if (state.formStatus == FormStatus.authenticated) {
               Navigator.pushReplacement(
                 context,

@@ -1,6 +1,7 @@
 import 'package:banking_app/data/models/network_response.dart';
 import 'package:banking_app/firebase%20_eception/firebase_exception.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthRepository {
@@ -16,6 +17,7 @@ class AuthRepository {
       );
       return NetworkResponse(data: userCredential);
     } on FirebaseAuthException catch (e) {
+      debugPrint("dsfdfdsfdsfsd");
       return NetworkResponse(
         errorText: LogInWithEmailAndPasswordFailure.fromCode(e.code).message,
         errorCode: e.code,
@@ -27,13 +29,13 @@ class AuthRepository {
   }
 
   Future<NetworkResponse> registerWithEmailAndPassword({
-    required String email,
+    required String username,
     required String password,
   }) async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
+        email: username,
         password: password,
       );
       return NetworkResponse(data: userCredential);
