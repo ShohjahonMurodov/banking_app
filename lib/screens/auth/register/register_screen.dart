@@ -3,6 +3,7 @@ import 'package:banking_app/blocs/auth/auth_event.dart';
 import 'package:banking_app/blocs/auth/auth_state.dart';
 import 'package:banking_app/data/models/user_model.dart';
 import 'package:banking_app/screens/auth/login/login_screen.dart';
+import 'package:banking_app/screens/auth/widgets/login_button.dart';
 import 'package:banking_app/screens/auth/widgets/password_text_input.dart';
 import 'package:banking_app/screens/auth/widgets/universal_text_input.dart';
 import 'package:banking_app/screens/tab_box/tab_screen.dart';
@@ -26,17 +27,8 @@ bool isChecked = false;
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    firstNameController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,18 +91,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           controller: passwordController,
                         ),
                         35.getH(),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 18.h,
-                              horizontal: 80.w,
-                            ),
-                            backgroundColor: AppColors.c_262626,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                          onPressed: () {
+                        LoginButtonItems(
+                          onTap: () {
                             context.read<AuthBloc>().add(
                                   RegisterUserEvent(
                                     userModel: UserModel(
@@ -125,14 +107,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 );
                           },
-                          child: Text(
-                            "SIGNUP",
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 13.w,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          isLoading: state.formStatus == FormStatus.loading,
+                          active: checkInput,
                         ),
                         13.getH(),
                         Text(
@@ -206,7 +182,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             );
           },
           listener: (BuildContext context, AuthState state) {
-            debugPrint("Makkamio--------------------");
             if (state.formStatus == FormStatus.authenticated) {
               Navigator.pushReplacement(
                 context,
@@ -219,5 +194,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  bool get checkInput {
+    return AppConstants.textRegExp.hasMatch(firstNameController.text) &&
+        AppConstants.passwordRegExp.hasMatch(passwordController.text);
+  }
+
+  @override
+  void dispose() {
+    passwordController.dispose();
+    firstNameController.dispose();
+    super.dispose();
   }
 }

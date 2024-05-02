@@ -1,4 +1,3 @@
-
 import 'package:banking_app/app/app.dart';
 import 'package:banking_app/data/local/storage_repository.dart';
 import 'package:banking_app/services/firebase_options.dart';

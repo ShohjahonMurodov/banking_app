@@ -3,7 +3,6 @@ import 'package:banking_app/blocs/auth/auth_state.dart';
 import 'package:banking_app/data/models/network_response.dart';
 import 'package:banking_app/data/repository/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -34,7 +33,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     if (networkResponse.errorText.isEmpty) {
-      // debugPrint("Qonday===============");
       emit(state.copyWith(formStatus: FormStatus.authenticated));
     } else {
       emit(

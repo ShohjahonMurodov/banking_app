@@ -2,6 +2,7 @@ import 'package:banking_app/blocs/auth/auth_bloc.dart';
 import 'package:banking_app/blocs/auth/auth_event.dart';
 import 'package:banking_app/blocs/auth/auth_state.dart';
 import 'package:banking_app/screens/auth/register/register_screen.dart';
+import 'package:banking_app/screens/auth/widgets/login_button.dart';
 import 'package:banking_app/screens/auth/widgets/password_text_input.dart';
 import 'package:banking_app/screens/auth/widgets/universal_text_input.dart';
 import 'package:banking_app/screens/routes.dart';
@@ -26,13 +27,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,18 +87,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 controller: passwordController,
                               ),
                               35.getH(),
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 18.h,
-                                    horizontal: 80.w,
-                                  ),
-                                  backgroundColor: AppColors.c_262626,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                                onPressed: () {
+                              LoginButtonItems(
+                                onTap: () {
                                   context.read<AuthBloc>().add(
                                         LoginUserEvent(
                                           username: emailController.text,
@@ -112,14 +96,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                       );
                                 },
-                                child: Text(
-                                  "LOGIN",
-                                  style: TextStyle(
-                                    color: AppColors.white,
-                                    fontSize: 13.w,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                                isLoading:
+                                    state.formStatus == FormStatus.loading,
+                                active: true,
                               ),
                             ],
                           ),
@@ -176,5 +155,17 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  bool get checkInput {
+    return AppConstants.passwordRegExp.hasMatch(passwordController.text) &&
+        AppConstants.textRegExp.hasMatch(emailController.text);
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -48,7 +47,7 @@ class LocalNotificationService {
             //   return UsersScreen();
             // }));
           }
-          print(notification.payload);
+          debugPrint(notification.payload);
         });
 
     await flutterLocalNotificationsPlugin
@@ -64,7 +63,7 @@ class LocalNotificationService {
 
   @pragma('vm:entry-point')
   void notificationTapBackground(NotificationResponse notificationResponse) {
-    print("TAPPED FROM BACKGROUND");
+    debugPrint("TAPPED FROM BACKGROUND");
   }
 
   AndroidNotificationChannel androidNotificationChannel =
@@ -82,7 +81,7 @@ class LocalNotificationService {
       String? body,
       String? payload,
       ) async {
-    print(payload);
+    debugPrint(payload);
   }
 
   void showNotification({
