@@ -6,6 +6,8 @@ class UserModel {
   final String phoneNumber;
   final String email;
   final String userId;
+  final String fcm;
+  final String authUid;
 
   UserModel(
       {required this.imageUrl,
@@ -14,7 +16,9 @@ class UserModel {
       required this.lastName,
       required this.passwordName,
       required this.phoneNumber,
-      required this.userId});
+      required this.userId,
+      required this.fcm,
+      required this.authUid});
 
   UserModel copyWith({
     String? userName,
@@ -24,6 +28,8 @@ class UserModel {
     String? phoneNumber,
     String? email,
     String? userId,
+    String? fcm,
+    String? authUid,
   }) =>
       UserModel(
         userName: userName ?? this.userName,
@@ -33,6 +39,8 @@ class UserModel {
         phoneNumber: phoneNumber ?? this.phoneNumber,
         email: email ?? this.email,
         userId: userId ?? this.userId,
+        fcm: fcm ?? this.fcm,
+        authUid: authUid ?? this.authUid,
       );
 
   Map<String, dynamic> toJson() {
@@ -44,6 +52,21 @@ class UserModel {
       'phoneNumber': phoneNumber,
       'email': email,
       'userId': userId,
+      'fcm': fcm,
+      'authUid': authUid,
+    };
+  }
+
+  Map<String, dynamic> toJsonUpdate() {
+    return {
+      'userName': userName,
+      'lastName': lastName,
+      'passwordName': passwordName,
+      'imageUrl': imageUrl,
+      'phoneNumber': phoneNumber,
+      'email': email,
+      'fcm': fcm,
+      'authUid': authUid,
     };
   }
 
@@ -56,6 +79,8 @@ class UserModel {
       passwordName: json['passwordName'],
       phoneNumber: json['phoneNumber'],
       userId: json['userId'],
+      fcm: json['fcm'],
+      authUid: json['authUid'],
     );
   }
 
@@ -67,5 +92,7 @@ class UserModel {
         passwordName: "",
         phoneNumber: '',
         userId: "",
+        fcm: "",
+        authUid: "",
       );
 }

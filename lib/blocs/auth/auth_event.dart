@@ -36,6 +36,10 @@ class LogOutEvent extends AuthEvent {
 }
 
 class SignInWithGoogleEvent extends AuthEvent {
+  SignInWithGoogleEvent({required this.userModel});
+
+  final UserModel userModel;
+
   @override
   List<Object?> get props => [];
 }

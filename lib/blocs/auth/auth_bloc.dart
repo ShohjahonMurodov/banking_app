@@ -1,6 +1,7 @@
 import 'package:banking_app/blocs/auth/auth_event.dart';
 import 'package:banking_app/blocs/auth/auth_state.dart';
 import 'package:banking_app/data/models/network_response.dart';
+import 'package:banking_app/data/models/user_model.dart';
 import 'package:banking_app/data/repository/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,17 +11,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc({required this.authRepository})
       : super(
-          const AuthState(
+          AuthState(
             errorMessage: "",
             statusMessage: "",
             formStatus: FormStatus.pure,
+            userModel: UserModel.initial(),
           ),
         ) {
     on<LoginUserEvent>(_loginUser);
     on<CheckAuthenticationEvent>(_checkAuthentication);
     on<LogOutEvent>(_logOutUser);
     on<RegisterUserEvent>(_registerUser);
-    on<SignInWithGoogleEvent>(_googleSignIn);
+    on<SignInWithGoogleEvent>(_googleSigIn);
   }
 
   Future<void> _loginUser(LoginUserEvent event, emit) async {
@@ -86,5 +88,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  _googleSignIn(SignInWithGoogleEvent event, emit) async {}
+  _googleSigIn(SignInWithGoogleEvent event, emit) async {
+    emit(state.copyWith(formStatus: FormStatus.loading));
+    NetworkResponse networkResponse = await authRepository.logOutUser();
+
+    if (networkResponse.errorText.isEmpty) {
+      UserCredential userCredential = networkResponse.data;
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.authenticated,
+          userModel: UserModel(
+            imageUrl: userCredential.user!.photoURL ?? "",
+            email: userCredential.user!.email ?? "",
+            userName: userCredential.user!.displayName ?? "",
+            lastName: userCredential.user!.displayName ?? "",
+            passwordName: "",
+            phoneNumber: userCredential.user!.phoneNumber ?? "",
+            userId: "",
+            fcm: "",
+            authUid: userCredential.user!.uid,
+          ),
+        ),
+      );
+    } else {
+      emit(state.copyWith(
+          formStatus: FormStatus.error,
+          errorMessage: networkResponse.errorText));
+    }
+  }
 }

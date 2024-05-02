@@ -103,6 +103,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       phoneNumber: "",
                                       userId: "",
                                       userName: firstNameController.text,
+                                      fcm: "",
+                                      authUid: "",
                                     ),
                                   ),
                                 );
@@ -131,9 +133,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         19.getH(),
                         IconButton(
                           onPressed: () {
-                            context
-                                .read<AuthBloc>()
-                                .add(SignInWithGoogleEvent());
+                            context.read<AuthBloc>().add(
+                                  SignInWithGoogleEvent(
+                                    userModel: UserModel.initial(),
+                                  ),
+                                );
                           },
                           icon: SvgPicture.asset(AppImages.google),
                         ),
