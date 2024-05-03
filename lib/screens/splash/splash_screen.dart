@@ -64,7 +64,6 @@ class _SplashScreenState extends State<SplashScreen> {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state.formStatus == FormStatus.authenticated) {
-
             BlocProvider.of<UserProfileBloc>(context).add(
               GetCurrentUserEvent(
                 uid: FirebaseAuth.instance.currentUser!.uid,

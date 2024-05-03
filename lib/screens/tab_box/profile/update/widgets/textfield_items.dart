@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 class TextFieldItems extends StatelessWidget {
   const TextFieldItems({
     super.key,
-    required this.controller,
+    required this.controller, required this.hintText,
   });
 
+  final String hintText;
   final TextEditingController controller;
 
   @override
@@ -20,6 +21,7 @@ class TextFieldItems extends StatelessWidget {
         fontWeight: FontWeight.w500,
       ),
       decoration: InputDecoration(
+        hintText: hintText,
         hintStyle: TextStyle(
           color: AppColors.c_7F8192,
           fontSize: 14.w,

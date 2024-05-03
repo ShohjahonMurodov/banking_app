@@ -17,6 +17,7 @@ class UpdateScreen extends StatefulWidget {
 
 class _UpdateScreenState extends State<UpdateScreen> {
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +71,24 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 ),
                 8.getH(),
                 TextFieldItems(
+                  hintText: state.userModel.phoneNumber,
                   controller: phoneController,
                 ),
+                12.getH(),
+                Text(
+                  "Password",
+                  style: TextStyle(
+                    color: AppColors.c_151940,
+                    fontSize: 12.w,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                8.getH(),
+                TextFieldItems(
+                  hintText: state.userModel.passwordName,
+                  controller: passwordController,
+                ),
+                8.getH(),
                 const Spacer(),
                 SizedBox(
                   width: double.infinity,
@@ -84,19 +101,36 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       ),
                     ),
                     onPressed: () async {
-                      UserModel userModel = state.userModel;
-
-                      userModel =
-                          userModel.copyWith(phoneNumber: phoneController.text);
-                      context.read<UserProfileBloc>().add(
-                            UpdateUserEvent(
-                              userModel: userModel,
+                      if (phoneController.text.isEmpty ||
+                          passwordController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Text(
+                              "Phone and password have not been changed!",
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontSize: 20.w,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
-                          );
+                          ),
+                        );
+                      } else {
+                        UserModel userModel = state.userModel;
 
-                      await Future.delayed(const Duration(seconds: 2));
+                        userModel = userModel.copyWith(
+                          phoneNumber: phoneController.text,
+                          passwordName: passwordController.text,
+                        );
+                        context.read<UserProfileBloc>().add(
+                              UpdateUserEvent(
+                                userModel: userModel,
+                              ),
+                            );
 
-                      Navigator.pop(context);
+                        Navigator.pop(context);
+                      }
                     },
                     child: Text(
                       "Save changes",
