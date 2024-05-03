@@ -8,7 +8,7 @@ import 'package:banking_app/screens/auth/login/login_screen.dart';
 import 'package:banking_app/screens/auth/widgets/login_button.dart';
 import 'package:banking_app/screens/auth/widgets/password_text_input.dart';
 import 'package:banking_app/screens/auth/widgets/universal_text_input.dart';
-import 'package:banking_app/screens/tab_box/tab_screen.dart';
+import 'package:banking_app/screens/pin/set_pin_screen.dart';
 import 'package:banking_app/utils/app_colors.dart';
 import 'package:banking_app/utils/app_constants.dart';
 import 'package:banking_app/utils/app_images.dart';
@@ -226,7 +226,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const TabScreen(),
+                  builder: (context) => const PinScreen(),
                 ),
               );
             }

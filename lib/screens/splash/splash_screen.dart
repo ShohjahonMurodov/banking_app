@@ -5,7 +5,7 @@ import 'package:banking_app/blocs/user_profile/user_profile_event.dart';
 import 'package:banking_app/data/local/storage_repository.dart';
 import 'package:banking_app/screens/auth/register/register_screen.dart';
 import 'package:banking_app/screens/on_boarding/on_boarding_screen.dart';
-import 'package:banking_app/screens/tab_box/tab_screen.dart';
+import 'package:banking_app/screens/pin/set_entry_screen.dart';
 import 'package:banking_app/utils/app_colors.dart';
 import 'package:banking_app/utils/app_images.dart';
 import 'package:banking_app/utils/size_utils.dart';
@@ -48,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const TabScreen(),
+          builder: (context) => const EnterScreen(),
         ),
       );
     }

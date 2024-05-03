@@ -3,6 +3,8 @@ import 'package:banking_app/blocs/auth/auth_event.dart';
 import 'package:banking_app/blocs/user_profile/user_profile_bloc.dart';
 import 'package:banking_app/data/repository/auth_repository.dart';
 import 'package:banking_app/data/repository/user_profile_repository.dart';
+import 'package:banking_app/screens/pin/cubit/check_cubit.dart';
+import 'package:banking_app/screens/pin/cubit/password_cubit.dart';
 import 'package:banking_app/screens/routes.dart';
 import 'package:banking_app/services/local_natification_service.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,8 @@ class App extends StatelessWidget {
             create: (context) => UserProfileBloc(
                 userProfileRepository: context.read<UserProfileRepository>()),
           ),
+          BlocProvider(create: (_) => PasswordCubit()),
+          BlocProvider(create: (_) => CheckCubit()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
