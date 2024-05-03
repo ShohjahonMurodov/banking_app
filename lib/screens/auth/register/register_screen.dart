@@ -13,6 +13,7 @@ import 'package:banking_app/utils/app_colors.dart';
 import 'package:banking_app/utils/app_constants.dart';
 import 'package:banking_app/utils/app_images.dart';
 import 'package:banking_app/utils/size_utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -217,6 +218,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     );
               }
+              BlocProvider.of<UserProfileBloc>(context).add(
+                GetCurrentUserEvent(
+                  uid: FirebaseAuth.instance.currentUser!.uid,
+                ),
+              );
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
