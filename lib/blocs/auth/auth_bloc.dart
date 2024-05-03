@@ -66,11 +66,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     if (networkResponse.errorText.isEmpty) {
-      emit(state.copyWith(formStatus: FormStatus.authenticated));
+      UserCredential userCredential = networkResponse.data as UserCredential;
+
+      UserModel userModel =
+          event.userModel.copyWith(authUid: userCredential.user!.uid);
+      emit(
+        state.copyWith(
+          formStatus: FormStatus.authenticated,
+          statusMessage: "registered",
+          userModel: userModel,
+        ),
+      );
     } else {
-      emit(state.copyWith(
+      emit(
+        state.copyWith(
           formStatus: FormStatus.error,
-          errorMessage: networkResponse.errorText));
+          errorMessage: networkResponse.errorText,
+        ),
+      );
     }
   }
 
@@ -82,9 +95,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (networkResponse.errorText.isEmpty) {
       emit(state.copyWith(formStatus: FormStatus.authenticated));
     } else {
-      emit(state.copyWith(
+      emit(
+        state.copyWith(
           formStatus: FormStatus.error,
-          errorMessage: networkResponse.errorText));
+          errorMessage: networkResponse.errorText,
+        ),
+      );
     }
   }
 
@@ -111,9 +127,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
     } else {
-      emit(state.copyWith(
+      emit(
+        state.copyWith(
           formStatus: FormStatus.error,
-          errorMessage: networkResponse.errorText));
+          errorMessage: networkResponse.errorText,
+        ),
+      );
     }
   }
 }

@@ -1,6 +1,8 @@
 import 'package:banking_app/blocs/auth/auth_bloc.dart';
 import 'package:banking_app/blocs/auth/auth_event.dart';
 import 'package:banking_app/blocs/auth/auth_state.dart';
+import 'package:banking_app/blocs/user_profile/user_profile_bloc.dart';
+import 'package:banking_app/blocs/user_profile/user_profile_event.dart';
 import 'package:banking_app/data/models/user_model.dart';
 import 'package:banking_app/screens/auth/login/login_screen.dart';
 import 'package:banking_app/screens/auth/widgets/login_button.dart';
@@ -29,6 +31,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +91,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           iconPath: AppImages.email,
                         ),
                         16.getH(),
+                        UniversalTextInput(
+                          controller: lastNameController,
+                          hintText: "Last Name",
+                          type: TextInputType.text,
+                          regExp: AppConstants.textRegExp,
+                          errorTitle: 'Last Name',
+                          iconPath: AppImages.email,
+                        ),
+                        16.getH(),
+                        UniversalTextInput(
+                          controller: phoneController,
+                          hintText: "Phone Number",
+                          type: TextInputType.number,
+                          regExp: AppConstants.phoneRegExp,
+                          errorTitle: 'Phone Number',
+                          iconPath: AppImages.email,
+                        ),
+                        16.getH(),
                         PasswordTextInput(
                           controller: passwordController,
                         ),
@@ -97,10 +119,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   RegisterUserEvent(
                                     userModel: UserModel(
                                       imageUrl: "",
-                                      email: "",
-                                      lastName: "",
+                                      email:
+                                          "${firstNameController.text.toLowerCase()}@gmail.com",
+                                      lastName: lastNameController.text,
                                       passwordName: passwordController.text,
-                                      phoneNumber: "",
+                                      phoneNumber: phoneController.text,
                                       userId: "",
                                       userName: firstNameController.text,
                                       fcm: "",
@@ -187,6 +210,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           },
           listener: (BuildContext context, AuthState state) {
             if (state.formStatus == FormStatus.authenticated) {
+              if (state.statusMessage == "registered") {
+                context.read<UserProfileBloc>().add(
+                      AddUserEvent(
+                        userModel: state.userModel,
+                      ),
+                    );
+              }
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
@@ -209,6 +239,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void dispose() {
     passwordController.dispose();
     firstNameController.dispose();
+    phoneController.dispose();
+    lastNameController.dispose();
     super.dispose();
   }
 }

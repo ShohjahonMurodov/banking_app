@@ -1,5 +1,7 @@
 import 'package:banking_app/blocs/auth/auth_bloc.dart';
 import 'package:banking_app/blocs/auth/auth_state.dart';
+import 'package:banking_app/blocs/user_profile/user_profile_bloc.dart';
+import 'package:banking_app/blocs/user_profile/user_profile_event.dart';
 import 'package:banking_app/data/local/storage_repository.dart';
 import 'package:banking_app/screens/auth/register/register_screen.dart';
 import 'package:banking_app/screens/on_boarding/on_boarding_screen.dart';
@@ -7,6 +9,7 @@ import 'package:banking_app/screens/tab_box/tab_screen.dart';
 import 'package:banking_app/utils/app_colors.dart';
 import 'package:banking_app/utils/app_images.dart';
 import 'package:banking_app/utils/size_utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -61,6 +64,13 @@ class _SplashScreenState extends State<SplashScreen> {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state.formStatus == FormStatus.authenticated) {
+
+            BlocProvider.of<UserProfileBloc>(context).add(
+              GetCurrentUserEvent(
+                uid: FirebaseAuth.instance.currentUser!.uid,
+              ),
+            );
+
             _init(true);
           } else {
             _init(false);

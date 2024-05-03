@@ -1,6 +1,8 @@
 import 'package:banking_app/blocs/auth/auth_bloc.dart';
 import 'package:banking_app/blocs/auth/auth_event.dart';
+import 'package:banking_app/blocs/user_profile/user_profile_bloc.dart';
 import 'package:banking_app/data/repository/auth_repository.dart';
+import 'package:banking_app/data/repository/user_profile_repository.dart';
 import 'package:banking_app/screens/routes.dart';
 import 'package:banking_app/services/local_natification_service.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,7 @@ class App extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (_) => AuthRepository()),
+        RepositoryProvider(create: (_) => UserProfileRepository()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -25,6 +28,10 @@ class App extends StatelessWidget {
             create: (context) =>
                 AuthBloc(authRepository: context.read<AuthRepository>())
                   ..add(CheckAuthenticationEvent()),
+          ),
+          BlocProvider(
+            create: (context) => UserProfileBloc(
+                userProfileRepository: context.read<UserProfileRepository>()),
           ),
         ],
         child: MaterialApp(
