@@ -8,4 +8,10 @@ class AppImages {
   static const String img2 = "assets/images/img_2.png";
   static const String img3 = "assets/images/img_3.png";
   static const String bankImage = "assets/images/bank.png";
+  static const String transfer = "assets/icons/transfer.svg";
+  static const String bill = "assets/icons/bill.svg";
+  static const String sent = "assets/icons/sent.svg";
+  static const String voucher = "assets/icons/vaucher.svg";
+  static const String shopping = "assets/icons/shopping.svg";
+  static const String be = "assets/icons/be.svg";
 }
