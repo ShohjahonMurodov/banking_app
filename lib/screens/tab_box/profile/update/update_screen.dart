@@ -128,7 +128,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 userModel: userModel,
                               ),
                             );
-
                         Navigator.pop(context);
                       }
                     },

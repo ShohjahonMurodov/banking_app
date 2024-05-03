@@ -19,13 +19,16 @@ class UserProfileRepository {
         }
       }
       if (isExist == false) {
-        DocumentReference documentReference = await FirebaseFirestore.instance
-            .collection('users')
-            .add(userModel.toJson());
         await FirebaseFirestore.instance
             .collection('users')
-            .doc(documentReference.id)
-            .update({"userId": documentReference.id});
+            .add(userModel.toJson())
+            .then((docRef) {
+          docRef.update({"userId": docRef.id});
+        });
+        // await FirebaseFirestore.instance
+        //     .collection('users')
+        //     .doc(documentReference.id)
+        //     .update({"userId": documentReference.id});
       }
       return NetworkResponse(data: "success");
     } on FirebaseException catch (error) {
