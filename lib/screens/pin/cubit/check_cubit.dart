@@ -1,4 +1,5 @@
 import 'package:banking_app/data/local/storage_repository.dart';
+import 'package:banking_app/screens/pin/set_entry_screen.dart';
 import 'package:banking_app/screens/tab_box/tab_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,6 +42,14 @@ class CheckCubit extends Cubit<String> {
           builder: (context) => const TabScreen(),
         ),
       );
+    } else {
+      if (isStartAnimation) {
+        globalAnimationController.reverse();
+        isStartAnimation = false;
+      } else {
+        globalAnimationController.forward();
+        isStartAnimation = true;
+      }
     }
   }
 }

@@ -1,5 +1,8 @@
 import 'package:banking_app/screens/pin/cubit/check_cubit.dart';
+import 'package:banking_app/screens/pin/local_auth.dart';
+import 'package:banking_app/screens/tab_box/tab_screen.dart';
 import 'package:banking_app/utils/size_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,8 +13,54 @@ class EnterScreen extends StatefulWidget {
   State<EnterScreen> createState() => _EnterScreenState();
 }
 
-class _EnterScreenState extends State<EnterScreen> {
+class _EnterScreenState extends State<EnterScreen>
+    with SingleTickerProviderStateMixin {
   String pinCode = "";
+  late Animation<Alignment> animationAlign;
+
+  bool auth = false;
+
+  _init() async {
+    final authenticated = await LocalAuth.authenticate();
+    setState(() {
+      auth = authenticated;
+    });
+    if (auth) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const TabScreen(),
+        ),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    _init();
+    globalAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
+
+    animationAlign = TweenSequence<Alignment>([
+      TweenSequenceItem<Alignment>(
+          tween: Tween(begin: Alignment.center, end: Alignment.centerLeft),
+          weight: 40),
+      TweenSequenceItem<Alignment>(
+          tween: Tween(begin: Alignment.centerLeft, end: Alignment.center),
+          weight: 40),
+      TweenSequenceItem<Alignment>(
+          tween: Tween(begin: Alignment.centerRight, end: Alignment.center),
+          weight: 40),
+    ]).animate(CurvedAnimation(
+        parent: globalAnimationController, curve: Curves.decelerate));
+
+    globalAnimationController.addListener(() {
+      // debugPrint("Qonday ---------------------");
+      setState(() {});
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,24 +183,28 @@ class _EnterScreenState extends State<EnterScreen> {
                         ),
                       ),
                       25.getH(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ...List.generate(
-                            4,
-                            (index) => Container(
-                              margin: EdgeInsets.symmetric(horizontal: 12.w),
-                              width: 15.w,
-                              height: 15.h,
-                              decoration: BoxDecoration(
-                                color: index < pinCode.length
-                                    ? Colors.green
-                                    : Colors.grey,
-                                shape: BoxShape.circle,
+                      Align(
+                        alignment: animationAlign.value,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ...List.generate(
+                              4,
+                              (index) => Container(
+                                margin: EdgeInsets.symmetric(horizontal: 12.w),
+                                width: 15.w,
+                                height: 15.h,
+                                decoration: BoxDecoration(
+                                  color: index < pinCode.length
+                                      ? Colors.green
+                                      : Colors.grey,
+                                  shape: BoxShape.circle,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       80.getH(),
                       Row(
@@ -187,22 +240,21 @@ class _EnterScreenState extends State<EnterScreen> {
                           TextButton(
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.symmetric(
-                                horizontal: 42.w,
-                                vertical: 27.h,
+                                vertical: 25.h,
+                                horizontal: 25.w,
                               ),
                               backgroundColor: Colors.black,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(100),
                               ),
                             ),
-                            onPressed: () {},
-                            child: Text(
-                              "",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24.w,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            onPressed: () {
+                              _init();
+                            },
+                            child: Icon(
+                              Icons.fingerprint,
+                              size: 40.w,
+                              color: Colors.white,
                             ),
                           ),
                           buttonItems(title: "0"),
@@ -257,3 +309,6 @@ class _EnterScreenState extends State<EnterScreen> {
     );
   }
 }
+
+late AnimationController globalAnimationController;
+bool isStartAnimation = false;

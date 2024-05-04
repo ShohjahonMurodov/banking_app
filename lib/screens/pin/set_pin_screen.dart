@@ -1,4 +1,3 @@
-
 import 'package:banking_app/screens/pin/cubit/password_cubit.dart';
 import 'package:banking_app/screens/pin/cubit/password_state.dart';
 import 'package:banking_app/utils/size_utils.dart';
@@ -60,9 +59,10 @@ class _PinScreenState extends State<PinScreen> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.yellow.withOpacity(0.4),
-                          spreadRadius: 40,
-                          blurRadius: 100)
+                        color: Colors.yellow.withOpacity(0.4),
+                        spreadRadius: 40,
+                        blurRadius: 100,
+                      ),
                     ],
                   ),
                 ),
@@ -134,16 +134,16 @@ class _PinScreenState extends State<PinScreen> {
                         children: [
                           ...List.generate(
                             4,
-                                (index) => Container(
+                            (index) => Container(
                               margin: EdgeInsets.symmetric(horizontal: 12.w),
                               width: 15.w,
                               height: 15.h,
                               decoration: BoxDecoration(
                                 color: index < state.password.length
                                     ? state.passwordStatus ==
-                                    PasswordStatus.error
-                                    ? Colors.red
-                                    : Colors.green
+                                            PasswordStatus.error
+                                        ? Colors.red
+                                        : Colors.green
                                     : Colors.white10,
                                 shape: BoxShape.circle,
                               ),
@@ -185,8 +185,8 @@ class _PinScreenState extends State<PinScreen> {
                           TextButton(
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.symmetric(
-                                horizontal: 42.w,
-                                vertical: 27.h,
+                                vertical: 25.h,
+                                horizontal: 25.w,
                               ),
                               backgroundColor: Colors.black,
                               shape: RoundedRectangleBorder(
@@ -194,13 +194,10 @@ class _PinScreenState extends State<PinScreen> {
                               ),
                             ),
                             onPressed: () {},
-                            child: Text(
-                              "",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24.w,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            child: Icon(
+                              Icons.fingerprint,
+                              size: 40.w,
+                              color: Colors.white,
                             ),
                           ),
                           buttonItems(title: "0"),
