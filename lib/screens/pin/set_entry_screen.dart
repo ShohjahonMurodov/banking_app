@@ -2,7 +2,6 @@ import 'package:banking_app/screens/pin/cubit/check_cubit.dart';
 import 'package:banking_app/screens/pin/local_auth.dart';
 import 'package:banking_app/screens/tab_box/tab_screen.dart';
 import 'package:banking_app/utils/size_utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -55,7 +54,6 @@ class _EnterScreenState extends State<EnterScreen>
         parent: globalAnimationController, curve: Curves.decelerate));
 
     globalAnimationController.addListener(() {
-      // debugPrint("Qonday ---------------------");
       setState(() {});
     });
 
