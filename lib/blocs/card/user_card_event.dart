@@ -40,8 +40,6 @@ class GetCardsByUserIdEvent extends UserCardsEvent {
 }
 
 class GetCardsDatabaseEvent extends UserCardsEvent {
-  GetCardsDatabaseEvent();
-
   @override
   List<Object?> get props => [];
 }

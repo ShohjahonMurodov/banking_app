@@ -36,6 +36,7 @@ class _TabScreenState extends State<TabScreen> {
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: state,
               onTap: context.read<TabBoxCubit>().changeValue,
+              backgroundColor: const Color(0xFF121433),
               items: [
                 BottomNavigationBarItem(
                   icon: Icon(

@@ -14,4 +14,10 @@ class AppImages {
   static const String voucher = "assets/icons/vaucher.svg";
   static const String shopping = "assets/icons/shopping.svg";
   static const String be = "assets/icons/be.svg";
+  static const String arrowTop = "assets/icons/arrow_top.svg";
+  static const String arrowBottom = "assets/icons/arrow_bottom.svg";
+  static const String topup = "assets/icons/topup.svg";
+  static const String payment = "assets/icons/payment.svg";
+  static const String arrowRight = "assets/icons/arrow_right.svg";
+  static const String listtile = "assets/icons/listtile.svg";
 }

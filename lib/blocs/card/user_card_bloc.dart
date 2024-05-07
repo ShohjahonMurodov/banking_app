@@ -33,7 +33,8 @@ class UserCardsBloc extends Bloc<UserCardsEvent, UserCardsState> {
         await cardRepository.addCard(event.cardModel);
 
     if (networkResponse.errorText.isEmpty) {
-      emit(state.copyWith(formStatus: FormStatus.success));
+      emit(state.copyWith(
+          formStatus: FormStatus.success, statusMessage: "added"));
     } else {
       emit(state.copyWith(
           formStatus: FormStatus.error,
@@ -71,8 +72,8 @@ class UserCardsBloc extends Bloc<UserCardsEvent, UserCardsState> {
     }
   }
 
-  _listenCard(GetCardsByUserIdEvent event, emit) async {
-    emit.onEach(
+  _listenCard(GetCardsByUserIdEvent event, Emitter emit) async {
+    await emit.onEach(
       cardRepository.getCardsByUserId(event.userId),
       onData: (List<CardModel> userCards) {
         emit(
@@ -82,8 +83,8 @@ class UserCardsBloc extends Bloc<UserCardsEvent, UserCardsState> {
     );
   }
 
-  _listenCardDatabase(GetCardsDatabaseEvent event, emit) async {
-    emit.onEach(
+  _listenCardDatabase(GetCardsDatabaseEvent event, Emitter emit) async {
+    await emit.onEach(
       cardRepository.getCardsDatabase(),
       onData: (List<CardModel> userCards) {
         emit(

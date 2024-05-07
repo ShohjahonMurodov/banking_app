@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 class TextFieldItems extends StatelessWidget {
   const TextFieldItems({
     super.key,
-    required this.controller, required this.hintText,
+    required this.controller,
+    required this.hintText,
   });
 
   final String hintText;
@@ -25,17 +26,23 @@ class TextFieldItems extends StatelessWidget {
         hintStyle: TextStyle(
           color: AppColors.c_7F8192,
           fontSize: 14.w,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w400,
         ),
         filled: true,
-        fillColor: AppColors.c_F5F6FA,
+        fillColor: const Color(0xFF23265A),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xFF858BE9),
+            width: 1.w,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(
+            color: const Color(0xFF858BE9),
+            width: 1.w,
+          ),
         ),
       ),
     );
