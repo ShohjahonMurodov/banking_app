@@ -4,6 +4,7 @@ import 'package:banking_app/blocs/card/user_card_state.dart';
 import 'package:banking_app/data/models/card_model.dart';
 import 'package:banking_app/screens/tab_box/profile/update/widgets/textfield_items.dart';
 import 'package:banking_app/utils/app_colors.dart';
+import 'package:banking_app/utils/formatters.dart';
 import 'package:banking_app/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFF121433),
       appBar: AppBar(
         leading: const Icon(Icons.add, color: Colors.transparent),
@@ -156,6 +158,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
                 ),
                 16.getH(),
                 TextFieldItems(
+                  maskTextInputFormatter:
+                      AppInputFormatters.cardNumberFormatter,
                   controller: cardNumberController,
                   hintText: "Card Number",
                 ),
@@ -193,7 +197,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
                       bool isExist = false;
 
                       for (var element in myCards) {
-                        if (element.cardNumber == cardNumberController.text) {
+                        if (element.cardNumber.trim() ==
+                            cardNumberController.text) {
                           isExist = true;
                           break;
                         }
@@ -202,7 +207,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
                       bool hasInDB = false;
 
                       for (var element in db) {
-                        if (element.cardNumber == cardNumberController.text) {
+                        if (element.cardNumber.trim() ==
+                            cardNumberController.text) {
                           hasInDB = true;
                           cardModel = element;
                           break;

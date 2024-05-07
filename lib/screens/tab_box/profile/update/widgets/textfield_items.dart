@@ -1,20 +1,25 @@
 import 'package:banking_app/utils/app_colors.dart';
 import 'package:banking_app/utils/size_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class TextFieldItems extends StatelessWidget {
   const TextFieldItems({
     super.key,
     required this.controller,
     required this.hintText,
+    this.maskTextInputFormatter,
   });
 
   final String hintText;
+  final MaskTextInputFormatter? maskTextInputFormatter;
   final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      inputFormatters:
+          maskTextInputFormatter != null ? [maskTextInputFormatter!] : null,
       controller: controller,
       style: TextStyle(
         color: AppColors.c_7F8192,
