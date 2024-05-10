@@ -146,6 +146,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
               ),
             ],
           ),
+          20.getH(),
         ],
       ),
     );
