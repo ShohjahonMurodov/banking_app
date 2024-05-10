@@ -4,6 +4,7 @@ import 'package:banking_app/blocs/card/user_card_state.dart';
 import 'package:banking_app/blocs/user_profile/user_profile_bloc.dart';
 import 'package:banking_app/screens/tab_box/card/add/add_card_screen.dart';
 import 'package:banking_app/screens/tab_box/card/widgets/row_items.dart';
+import 'package:banking_app/screens/transaction/transaction_screen.dart';
 import 'package:banking_app/utils/app_colors.dart';
 import 'package:banking_app/utils/app_images.dart';
 import 'package:banking_app/utils/size_utils.dart';
@@ -66,6 +67,15 @@ class _CardScreenState extends State<CardScreen> {
                                       cardDocId: state.userCards[index].cardId,
                                     ),
                                   );
+                            },
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const TransactionScreen(),
+                                ),
+                              );
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(

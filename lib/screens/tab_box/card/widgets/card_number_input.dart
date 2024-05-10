@@ -3,31 +3,44 @@ import 'package:banking_app/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class TextFieldItems extends StatelessWidget {
-  const TextFieldItems({
+class CardNumberInput extends StatefulWidget {
+  const CardNumberInput({
     super.key,
     required this.controller,
-    required this.hintText,
     this.maskTextInputFormatter,
+    required this.focusNode,
   });
 
-  final String hintText;
   final MaskTextInputFormatter? maskTextInputFormatter;
+  final FocusNode focusNode;
   final TextEditingController controller;
 
   @override
+  State<CardNumberInput> createState() => _CardNumberInputState();
+}
+
+class _CardNumberInputState extends State<CardNumberInput> {
+  @override
   Widget build(BuildContext context) {
     return TextField(
-      inputFormatters:
-          maskTextInputFormatter != null ? [maskTextInputFormatter!] : null,
-      controller: controller,
+      focusNode: widget.focusNode,
+      onChanged: (value) {
+        if (value.replaceAll(" ", "").length == 16) {
+          widget.focusNode.unfocus();
+        }
+        setState(() {});
+      },
+      inputFormatters: widget.maskTextInputFormatter != null
+          ? [widget.maskTextInputFormatter!]
+          : null,
+      controller: widget.controller,
       style: TextStyle(
         color: AppColors.c_7F8192,
         fontSize: 16.w,
         fontWeight: FontWeight.w500,
       ),
       decoration: InputDecoration(
-        hintText: hintText,
+        hintText: "Card Number",
         hintStyle: TextStyle(
           color: AppColors.c_7F8192,
           fontSize: 14.w,

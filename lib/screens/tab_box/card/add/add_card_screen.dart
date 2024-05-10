@@ -1,8 +1,10 @@
 import 'package:banking_app/blocs/card/user_card_bloc.dart';
 import 'package:banking_app/blocs/card/user_card_event.dart';
 import 'package:banking_app/blocs/card/user_card_state.dart';
+import 'package:banking_app/blocs/user_profile/user_profile_bloc.dart';
 import 'package:banking_app/data/models/card_model.dart';
-import 'package:banking_app/screens/tab_box/profile/update/widgets/textfield_items.dart';
+import 'package:banking_app/screens/tab_box/card/widgets/card_number_input.dart';
+import 'package:banking_app/screens/tab_box/card/widgets/expire_date_input.dart';
 import 'package:banking_app/utils/app_colors.dart';
 import 'package:banking_app/utils/formatters.dart';
 import 'package:banking_app/utils/size_utils.dart';
@@ -18,7 +20,7 @@ class AddCardScreen extends StatefulWidget {
 
 class _AddCardScreenState extends State<AddCardScreen> {
   final TextEditingController cardNumberController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController expireDateController = TextEditingController();
   Color color = const Color(0xFF8225F9);
 
   @override
@@ -157,15 +159,15 @@ class _AddCardScreenState extends State<AddCardScreen> {
                   ),
                 ),
                 16.getH(),
-                TextFieldItems(
+                CardNumberInput(
                   maskTextInputFormatter:
                       AppInputFormatters.cardNumberFormatter,
                   controller: cardNumberController,
-                  hintText: "Card Number",
+                  focusNode: FocusNode(),
                 ),
                 15.getH(),
                 Text(
-                  "Username",
+                  "Expire Date",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20.w,
@@ -173,10 +175,13 @@ class _AddCardScreenState extends State<AddCardScreen> {
                   ),
                 ),
                 16.getH(),
-                TextFieldItems(
-                  controller: nameController,
-                  hintText: "Name",
+                ExpireDateInput(
+                  maskTextInputFormatter:
+                      AppInputFormatters.cardExpirationDateFormatter,
+                  controller: expireDateController,
+                  focusNode: FocusNode(),
                 ),
+                15.getH(),
                 const Spacer(),
                 SizedBox(
                   width: double.infinity,
@@ -196,9 +201,12 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
                       bool isExist = false;
 
+                      String cardText =
+                          cardNumberController.text.replaceAll(" ", "");
+                      String expireText = expireDateController.text;
+
                       for (var element in myCards) {
-                        if (element.cardNumber.trim() ==
-                            cardNumberController.text) {
+                        if (element.cardNumber == cardText) {
                           isExist = true;
                           break;
                         }
@@ -207,8 +215,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                       bool hasInDB = false;
 
                       for (var element in db) {
-                        if (element.cardNumber.trim() ==
-                            cardNumberController.text) {
+                        if (element.cardNumber == cardText) {
                           hasInDB = true;
                           cardModel = element;
                           break;
@@ -249,6 +256,12 @@ class _AddCardScreenState extends State<AddCardScreen> {
                 Center(
                   child: TextButton(
                     onPressed: () {
+                      context.read<UserCardsBloc>().add(GetCardsByUserIdEvent(
+                          userId: context
+                              .read<UserProfileBloc>()
+                              .state
+                              .userModel
+                              .userId));
                       Navigator.pop(context);
                     },
                     child: Text(

@@ -4,6 +4,7 @@ import 'package:banking_app/blocs/user_profile/user_profile_state.dart';
 import 'package:banking_app/data/models/network_response.dart';
 import 'package:banking_app/data/models/user_model.dart';
 import 'package:banking_app/data/repository/user_profile_repository.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
@@ -122,6 +123,14 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
           userModel: networkResponse.data as UserModel,
         ),
       );
+
+      String? token = await FirebaseMessaging.instance.getToken();
+
+      if (token != null) {
+        UserModel userModel = state.userModel;
+        userModel = userModel.copyWith(fcm: token);
+        add(UpdateUserEvent(userModel: userModel));
+      }
     } else {
       emit(
         state.copyWith(
