@@ -3,7 +3,6 @@ import 'package:banking_app/screens/on_boarding/on_boarding_screen.dart';
 import 'package:banking_app/screens/payment/payment_screen.dart';
 import 'package:banking_app/screens/splash/splash_screen.dart';
 import 'package:banking_app/screens/tab_box/tab_screen.dart';
-import 'package:banking_app/screens/transfer/transfer_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'no_internet/no_internet_screen.dart';
@@ -21,8 +20,6 @@ class AppRoutes {
         return navigate(NoInternetScreen(
             onInternetComeBack: settings.arguments as VoidCallback));
 
-      case RouteNames.transferRoute:
-        return navigate(const TransferScreen());
       case RouteNames.paymentRoute:
         return navigate(const PaymentScreen());
       case RouteNames.authRoute:

@@ -12,6 +12,7 @@ class UserCardsBloc extends Bloc<UserCardsEvent, UserCardsState> {
           const UserCardsState(
             userCards: [],
             userCardsDB: [],
+            activeCards: [],
             formStatus: FormStatus.pure,
             errorMessage: "",
             statusMessage: "",
@@ -21,6 +22,7 @@ class UserCardsBloc extends Bloc<UserCardsEvent, UserCardsState> {
     on<UpdateCardEvent>(_updateCard);
     on<DeleteCardEvent>(_deleteCard);
     on<GetCardsByUserIdEvent>(_listenCard);
+    on<GetActiveCards>(_listenActiveCard);
     on<GetCardsDatabaseEvent>(_listenCardDatabase);
   }
 
@@ -70,6 +72,15 @@ class UserCardsBloc extends Bloc<UserCardsEvent, UserCardsState> {
           formStatus: FormStatus.error,
           errorMessage: networkResponse.errorText));
     }
+  }
+
+  _listenActiveCard(GetActiveCards event, Emitter emit) async {
+    await emit.onEach(
+      cardRepository.getActiveCards(),
+      onData: (List<CardModel> activeCards) {
+        emit(state.copyWith(activeCards: activeCards));
+      },
+    );
   }
 
   _listenCard(GetCardsByUserIdEvent event, Emitter emit) async {

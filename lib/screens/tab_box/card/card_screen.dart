@@ -72,8 +72,9 @@ class _CardScreenState extends State<CardScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const TransactionScreen(),
+                                  builder: (context) => TransactionScreen(
+                                    cardModel: state.userCards[index],
+                                  ),
                                 ),
                               );
                             },

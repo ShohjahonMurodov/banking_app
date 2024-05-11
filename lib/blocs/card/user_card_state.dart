@@ -3,15 +3,18 @@ import 'package:banking_app/data/models/card_model.dart';
 import 'package:equatable/equatable.dart';
 
 class UserCardsState extends Equatable {
-  const UserCardsState(
-      {required this.userCards,
-      required this.formStatus,
-      required this.errorMessage,
-      required this.statusMessage,
-      required this.userCardsDB});
+  const UserCardsState({
+    required this.userCards,
+    required this.formStatus,
+    required this.errorMessage,
+    required this.statusMessage,
+    required this.userCardsDB,
+    required this.activeCards,
+  });
 
   final List<CardModel> userCards;
   final List<CardModel> userCardsDB;
+  final List<CardModel> activeCards;
   final FormStatus formStatus;
   final String errorMessage;
   final String statusMessage;
@@ -22,6 +25,7 @@ class UserCardsState extends Equatable {
     FormStatus? formStatus,
     String? errorMessage,
     String? statusMessage,
+    List<CardModel>? activeCards,
   }) {
     return UserCardsState(
       userCards: userCards ?? this.userCards,
@@ -29,6 +33,7 @@ class UserCardsState extends Equatable {
       errorMessage: errorMessage ?? this.errorMessage,
       statusMessage: statusMessage ?? this.statusMessage,
       userCardsDB: userCardsDB ?? this.userCardsDB,
+      activeCards: activeCards ?? this.activeCards,
     );
   }
 
@@ -39,5 +44,6 @@ class UserCardsState extends Equatable {
         errorMessage,
         statusMessage,
         userCardsDB,
+        activeCards,
       ];
 }
